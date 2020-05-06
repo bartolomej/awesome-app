@@ -20,7 +20,7 @@ import in.awesomesearch.app.R;
 
 public class ResultListAdapter extends RecyclerView.Adapter<ItemViewHolder> {
 
-    private final ArrayList<AwesomeItem> items;
+    private ArrayList<AwesomeItem> items;
     private LayoutInflater layoutInflater;
 
     public ResultListAdapter(Context context, ArrayList<AwesomeItem> items) {
@@ -28,6 +28,14 @@ public class ResultListAdapter extends RecyclerView.Adapter<ItemViewHolder> {
         layoutInflater = LayoutInflater.from(context);
     }
 
+    public ResultListAdapter(Context context) {
+        this.items = new ArrayList<>();
+        layoutInflater = LayoutInflater.from(context);
+    }
+
+    public void setItems (ArrayList<AwesomeItem> items) {
+        this.items = items;
+    }
 
     @NonNull
     @Override

@@ -4,4 +4,5 @@
     <string name="title_bookmarks">Bookmarks</string>
     <string name="search_description_text">Search the world’s largest awesome collection.</string>
     <string name="awesome_logo_desc">Awesome logo</string>
+    <string name="prompt_search">Search anything ...</string>
 </resources>

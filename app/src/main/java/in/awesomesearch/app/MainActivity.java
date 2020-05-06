@@ -16,6 +16,10 @@ import androidx.navigation.ui.NavigationUI;
  * - https://github.com/android/architecture-components-samples/tree/master/BasicSample
  * - https://github.com/ivacf/archi
  * - https://github.com/k0shk0sh/FastHub
+ *
+ * SPLASH SCREEN / ON BOARDING:
+ * - https://www.youtube.com/watch?v=JLIFqqnSNmg
+ * - https://www.youtube.com/watch?v=pwcG6npiXyo
  */
 
 public class MainActivity extends AppCompatActivity {
