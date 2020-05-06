@@ -10,6 +10,14 @@ import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
+/**
+ * EXAMPLE APPS:
+ * - https://github.com/MindorksOpenSource/android-mvp-architecture
+ * - https://github.com/android/architecture-components-samples/tree/master/BasicSample
+ * - https://github.com/ivacf/archi
+ * - https://github.com/k0shk0sh/FastHub
+ */
+
 public class MainActivity extends AppCompatActivity {
 
     @Override
@@ -20,7 +28,7 @@ public class MainActivity extends AppCompatActivity {
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.navigation_home, R.id.navigation_dashboard, R.id.navigation_notifications)
+                R.id.navigation_home, R.id.navigation_bookmarks)
                 .build();
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);

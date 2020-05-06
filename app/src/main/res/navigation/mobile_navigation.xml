@@ -7,19 +7,14 @@
 
     <fragment
         android:id="@+id/navigation_home"
-        android:name="in.awesomesearch.app.ui.home.HomeFragment"
+        android:name="in.awesomesearch.app.ui.search.SearchFragment"
         android:label="@string/title_home"
         tools:layout="@layout/fragment_home" />
 
     <fragment
-        android:id="@+id/navigation_dashboard"
-        android:name="in.awesomesearch.app.ui.dashboard.DashboardFragment"
-        android:label="@string/title_dashboard"
-        tools:layout="@layout/fragment_dashboard" />
+        android:id="@+id/navigation_bookmarks"
+        android:name="in.awesomesearch.app.ui.bookmarks.BookmarksFragment"
+        android:label="@string/title_bookmarks"
+        tools:layout="@layout/fragment_bookmarks" />
 
-    <fragment
-        android:id="@+id/navigation_notifications"
-        android:name="in.awesomesearch.app.ui.notifications.NotificationsFragment"
-        android:label="@string/title_notifications"
-        tools:layout="@layout/fragment_notifications" />
 </navigation>
