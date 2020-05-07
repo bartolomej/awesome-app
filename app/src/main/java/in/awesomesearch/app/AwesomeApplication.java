@@ -3,6 +3,8 @@ package in.awesomesearch.app;
 import android.app.Application;
 import android.content.Context;
 
+import in.awesomesearch.app.data.AwesomeService;
+
 public class AwesomeApplication extends Application {
 
     private AwesomeService awesomeService;

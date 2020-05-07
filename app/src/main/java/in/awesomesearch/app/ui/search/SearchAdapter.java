@@ -1,7 +1,6 @@
 package in.awesomesearch.app.ui.search;
 
 import android.content.Context;
-import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,24 +10,24 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.net.URI;
 import java.util.ArrayList;
+import java.util.List;
 
-import in.awesomesearch.app.AwesomeItem;
-import in.awesomesearch.app.DownloadImageTask;
+import in.awesomesearch.app.tasks.DownloadImageTask;
 import in.awesomesearch.app.R;
+import in.awesomesearch.app.data.AwesomeItem;
 
-public class ResultListAdapter extends RecyclerView.Adapter<ItemViewHolder> {
+public class SearchAdapter extends RecyclerView.Adapter<ItemViewHolder> {
 
-    private ArrayList<AwesomeItem> items;
+    private List<AwesomeItem> items;
     private LayoutInflater layoutInflater;
 
-    public ResultListAdapter(Context context, ArrayList<AwesomeItem> items) {
+    public SearchAdapter(Context context, List<AwesomeItem> items) {
         this.items = items;
         layoutInflater = LayoutInflater.from(context);
     }
 
-    public ResultListAdapter(Context context) {
+    public SearchAdapter(Context context) {
         this.items = new ArrayList<>();
         layoutInflater = LayoutInflater.from(context);
     }
@@ -61,12 +60,12 @@ public class ResultListAdapter extends RecyclerView.Adapter<ItemViewHolder> {
 
 class ItemViewHolder extends RecyclerView.ViewHolder {
 
-    final ResultListAdapter adapter;
+    final SearchAdapter adapter;
     public final TextView title;
     public final TextView description;
     public final ImageView image;
 
-    public ItemViewHolder(View itemView, ResultListAdapter adapter) {
+    public ItemViewHolder(View itemView, SearchAdapter adapter) {
         super(itemView);
         title = itemView.findViewById(R.id.item_title);
         description = itemView.findViewById(R.id.item_description);

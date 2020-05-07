@@ -1,4 +1,4 @@
-package in.awesomesearch.app;
+package in.awesomesearch.app.tasks;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -7,9 +7,12 @@ import android.util.Log;
 import android.widget.ImageView;
 
 import java.io.InputStream;
+import java.util.Objects;
 
 public class DownloadImageTask extends AsyncTask<String, Void, Bitmap> {
-    ImageView imageView;
+
+    private static final String TAG = "DownloadImageTask";
+    private ImageView imageView;
 
     public DownloadImageTask(ImageView imageView) {
         this.imageView = imageView;
@@ -17,18 +20,20 @@ public class DownloadImageTask extends AsyncTask<String, Void, Bitmap> {
 
     protected Bitmap doInBackground(String... urls) {
         String urldisplay = urls[0];
-        Bitmap mIcon11 = null;
+        Bitmap image = null;
         try {
             InputStream in = new java.net.URL(urldisplay).openStream();
-            mIcon11 = BitmapFactory.decodeStream(in);
+            image = BitmapFactory.decodeStream(in);
         } catch (Exception e) {
-            Log.e("Error", e.getMessage());
+            Log.e(TAG, Objects.requireNonNull(e.getMessage()));
             e.printStackTrace();
         }
-        return mIcon11;
+        return image;
     }
 
     protected void onPostExecute(Bitmap result) {
-        imageView.setImageBitmap(result);
+        if (result != null) {
+            imageView.setImageBitmap(result);
+        }
     }
 }

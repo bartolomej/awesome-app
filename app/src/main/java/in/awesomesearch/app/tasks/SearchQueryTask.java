@@ -1,10 +1,12 @@
-package in.awesomesearch.app;
+package in.awesomesearch.app.tasks;
 
 import android.os.AsyncTask;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import in.awesomesearch.app.data.AwesomeItem;
+import in.awesomesearch.app.data.AwesomeService;
 import retrofit2.Response;
 
 public class SearchQueryTask extends AsyncTask<String, Void, ArrayList<AwesomeItem>> {

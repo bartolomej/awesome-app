@@ -1,4 +1,4 @@
-package in.awesomesearch.app;
+package in.awesomesearch.app.data;
 
 import com.google.gson.annotations.SerializedName;
 
