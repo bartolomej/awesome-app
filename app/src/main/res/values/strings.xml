@@ -5,4 +5,5 @@
     <string name="search_description_text">Search the world’s largest awesome collection.</string>
     <string name="awesome_logo_desc">Awesome logo</string>
     <string name="prompt_search">Search anything ...</string>
+    <string name="search_empty_message">Nothing to be seen here :(</string>
 </resources>

@@ -22,10 +22,16 @@ public class SearchAdapter extends RecyclerView.Adapter<ItemViewHolder> {
 
     private List<AwesomeItem> items;
     private LayoutInflater layoutInflater;
+    private View.OnClickListener onClickListener;
+
 
     public SearchAdapter(Context context, List<AwesomeItem> items) {
         this.items = items;
         layoutInflater = LayoutInflater.from(context);
+    }
+
+    public void setOnClickListener(View.OnClickListener onClickListener) {
+        this.onClickListener = onClickListener;
     }
 
     public void setItems (ArrayList<AwesomeItem> items) {
@@ -35,9 +41,10 @@ public class SearchAdapter extends RecyclerView.Adapter<ItemViewHolder> {
     @NonNull
     @Override
     public ItemViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View mItemView = layoutInflater.inflate(R.layout.awesome_item,
+        View view = layoutInflater.inflate(R.layout.awesome_item,
                 parent, false);
-        return new ItemViewHolder(mItemView, this);
+        view.setOnClickListener(onClickListener);
+        return new ItemViewHolder(view, this);
     }
 
     @Override
