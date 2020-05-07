@@ -1,17 +1,24 @@
 package in.awesomesearch.app.data;
 
-import java.util.List;
-import java.util.concurrent.ExecutionException;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
 
-import in.awesomesearch.app.tasks.SearchQueryTask;
+import java.util.ArrayList;
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class Repository {
 
+    private static final String TAG = "Repository";
     private static Repository instance;
-    private List<AwesomeItem> awesomeItems;
+    private MutableLiveData<List<AwesomeItem>> awesomeItems;
 
     private Repository () {
-
+        awesomeItems = new MutableLiveData<>();
+        awesomeItems.setValue(new ArrayList<>());
     }
 
     /**
@@ -30,14 +37,22 @@ public class Repository {
         return instance;
     }
 
-    public List<AwesomeItem> getAwesomeItems (String query) {
-        try {
-            awesomeItems = new SearchQueryTask().execute(query).get();
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+    public LiveData<List<AwesomeItem>> getAwesomeItems() {
         return awesomeItems;
+    }
+
+    public void searchAwesomeItems(String query) {
+        AwesomeService service = AwesomeService.Factory.create();
+        service.search(query).enqueue(new Callback<List<AwesomeItem>>() {
+            @Override
+            public void onResponse(Call<List<AwesomeItem>> call, Response<List<AwesomeItem>> response) {
+                if (response.code() == 200) {
+                    awesomeItems.postValue(response.body());
+                }
+            }
+            @Override
+            public void onFailure(Call<List<AwesomeItem>> call, Throwable t) {
+            }
+        });
     }
 }

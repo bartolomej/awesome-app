@@ -10,10 +10,11 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.squareup.picasso.Picasso;
+
 import java.util.ArrayList;
 import java.util.List;
 
-import in.awesomesearch.app.tasks.DownloadImageTask;
 import in.awesomesearch.app.R;
 import in.awesomesearch.app.data.AwesomeItem;
 
@@ -24,11 +25,6 @@ public class SearchAdapter extends RecyclerView.Adapter<ItemViewHolder> {
 
     public SearchAdapter(Context context, List<AwesomeItem> items) {
         this.items = items;
-        layoutInflater = LayoutInflater.from(context);
-    }
-
-    public SearchAdapter(Context context) {
-        this.items = new ArrayList<>();
         layoutInflater = LayoutInflater.from(context);
     }
 
@@ -49,7 +45,8 @@ public class SearchAdapter extends RecyclerView.Adapter<ItemViewHolder> {
         AwesomeItem current = items.get(position);
         holder.title.setText(current.title);
         holder.description.setText(current.description);
-        new DownloadImageTask(holder.image).execute(current.image);
+        // https://square.github.io/picasso/
+        Picasso.get().load(current.image).into(holder.image);
     }
 
     @Override
