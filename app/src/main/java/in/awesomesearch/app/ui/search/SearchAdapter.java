@@ -12,7 +12,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.squareup.picasso.Picasso;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import in.awesomesearch.app.R;
@@ -34,8 +33,10 @@ public class SearchAdapter extends RecyclerView.Adapter<ItemViewHolder> {
         this.onClickListener = onClickListener;
     }
 
-    public void setItems (ArrayList<AwesomeItem> items) {
-        this.items = items;
+    public void setItems (List<AwesomeItem> items) {
+        if (items != null) {
+            this.items = items;
+        }
     }
 
     @NonNull
