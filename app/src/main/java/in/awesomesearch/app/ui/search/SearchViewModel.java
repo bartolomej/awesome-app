@@ -8,7 +8,7 @@ import androidx.lifecycle.ViewModel;
 import java.util.ArrayList;
 import java.util.List;
 
-import in.awesomesearch.app.data.AwesomeItem;
+import in.awesomesearch.app.data.models.AwesomeItem;
 import in.awesomesearch.app.data.Repository;
 import in.awesomesearch.app.data.Resource;
 

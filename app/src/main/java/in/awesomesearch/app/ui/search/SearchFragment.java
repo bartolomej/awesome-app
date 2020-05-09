@@ -23,7 +23,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.List;
 
 import in.awesomesearch.app.R;
-import in.awesomesearch.app.data.AwesomeItem;
+import in.awesomesearch.app.data.models.AwesomeItem;
 
 
 public class SearchFragment extends Fragment {
@@ -69,8 +69,8 @@ public class SearchFragment extends Fragment {
     private void registerStateObservers () {
         viewModel.getObservableSearchItems().observe(this, new Observer<List<AwesomeItem>>() {
             @Override
-            public void onChanged(List<AwesomeItem> listResource) {
-                resultListAdapter.setItems(listResource);
+            public void onChanged(List<AwesomeItem> awesomeItems) {
+                resultListAdapter.setItems(awesomeItems);
                 resultListAdapter.notifyDataSetChanged();
             }
         });

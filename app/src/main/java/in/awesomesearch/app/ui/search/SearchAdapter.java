@@ -15,7 +15,7 @@ import com.squareup.picasso.Picasso;
 import java.util.List;
 
 import in.awesomesearch.app.R;
-import in.awesomesearch.app.data.AwesomeItem;
+import in.awesomesearch.app.data.models.AwesomeItem;
 
 public class SearchAdapter extends RecyclerView.Adapter<ItemViewHolder> {
 

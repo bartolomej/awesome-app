@@ -5,7 +5,7 @@ import org.junit.Test;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import in.awesomesearch.app.data.AwesomeItem;
+import in.awesomesearch.app.data.models.AwesomeItem;
 import in.awesomesearch.app.data.AwesomeService;
 import retrofit2.Response;
 

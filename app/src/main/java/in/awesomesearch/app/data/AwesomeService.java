@@ -2,6 +2,7 @@ package in.awesomesearch.app.data;
 
 import java.util.List;
 
+import in.awesomesearch.app.data.models.AwesomeItem;
 import retrofit2.Call;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
