@@ -40,6 +40,10 @@ public class AwesomeItem {
         return this.tags.size() > 0;
     }
 
+    public void setBookmarkGroup (String uid) {
+        groupId = uid;
+    }
+
     @NonNull
     public String toString () {
         return String.format("AwesomeItem[uid:%s, title:%s]", this.uid, this.title);

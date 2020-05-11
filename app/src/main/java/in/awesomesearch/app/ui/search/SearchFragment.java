@@ -127,7 +127,6 @@ public class SearchFragment extends Fragment {
             @Override
             public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
-                Log.d(TAG, "Scrolled dx: " + dx + " dy: " + dy);
                 // TODO: setup pagination
             }
         });

@@ -1,6 +1,7 @@
 package in.awesomesearch.app.ui.bookmarks;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +16,8 @@ import java.util.List;
 
 import in.awesomesearch.app.R;
 import in.awesomesearch.app.data.models.GroupWithItems;
+
+import static androidx.constraintlayout.widget.Constraints.TAG;
 
 public class BookmarksListAdapter extends RecyclerView.Adapter {
 
@@ -40,6 +43,7 @@ public class BookmarksListAdapter extends RecyclerView.Adapter {
         GroupWithItems current = items.get(position);
         BookmarkItemViewHolder viewHolder = (BookmarkItemViewHolder) holder;
         viewHolder.itemsCount.setText(String.valueOf(current.getItemsCount()));
+        Log.d(TAG, current.bookmarkGroup.name + ": " + current.items.size());
         viewHolder.name.setText(current.bookmarkGroup.name);
     }
 

@@ -9,6 +9,7 @@ import androidx.room.Transaction;
 
 import java.util.List;
 
+import in.awesomesearch.app.data.models.AwesomeItem;
 import in.awesomesearch.app.data.models.BookmarkGroup;
 import in.awesomesearch.app.data.models.GroupWithItems;
 
@@ -26,8 +27,8 @@ public interface BookmarkGroupDao {
     @Query("SELECT * FROM BookmarkGroup")
     List<GroupWithItems> getAllGroupsWithItemsSync();
 
-    @Query("SELECT * FROM BookmarkGroup")
-    LiveData<List<BookmarkGroup>> getAllBookmarkGroups();
+    @Query("SELECT * FROM BookmarkGroup WHERE name = :uid")
+    LiveData<BookmarkGroup> findItem(String uid);
 
     @Query("SELECT * FROM BookmarkGroup")
     List<BookmarkGroup> getAllBookmarkGroupsSync();

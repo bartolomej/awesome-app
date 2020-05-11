@@ -5,10 +5,14 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModel;
 
+import java.util.List;
+
 import in.awesomesearch.app.AwesomeError;
 import in.awesomesearch.app.data.Repository;
 import in.awesomesearch.app.data.Resource;
 import in.awesomesearch.app.data.models.AwesomeItem;
+import in.awesomesearch.app.data.models.BookmarkGroup;
+import in.awesomesearch.app.data.models.GroupWithItems;
 
 public class DetailsViewModel extends ViewModel {
 
@@ -34,8 +38,13 @@ public class DetailsViewModel extends ViewModel {
         return itemMutableLiveData;
     }
 
-    void addToBookmarks (AwesomeItem item) {
+    LiveData<List<GroupWithItems>> getGroupsWithItems() {
+        return Repository.getInstance().bookmarksWithGroups();
+    }
 
+    void addToBookmarks (String uid, AwesomeItem item) {
+        item.setBookmarkGroup(uid);
+        Repository.getInstance().addItemToBookmarkGroup(item);
     }
 
     LiveData<AwesomeError> getAwesomeError () {

@@ -39,9 +39,9 @@ public class Repository {
         return dao.getAllGroupsWithItems();
     }
 
-    public LiveData<List<BookmarkGroup>> bookmarkGroups () {
+    public LiveData<BookmarkGroup> getBookmarkGroup(String uid) {
         BookmarkGroupDao dao = AwesomeApplication.getDatabase().bookmarkGroupDao();
-        return dao.getAllBookmarkGroups();
+        return dao.findItem(uid);
     }
 
     public void addBookmarkGroup(BookmarkGroup bookmarkGroup) {
@@ -54,9 +54,24 @@ public class Repository {
         });
     }
 
-    public void addAwesomeItem(AwesomeItem item) {
+    public void removeBookmarkGroup (BookmarkGroup group) {
+        BookmarkGroupDao dao = AwesomeApplication.getDatabase().bookmarkGroupDao();
+        AsyncTask.execute(new Runnable() {
+            @Override
+            public void run() {
+                dao.deleteGroup(group);
+            }
+        });
+    }
+
+    public void addItemToBookmarkGroup(AwesomeItem item) {
         AwesomeItemDao dao = AwesomeApplication.getDatabase().awesomeItemDao();
-        dao.insertItem(item);
+        AsyncTask.execute(new Runnable() {
+            @Override
+            public void run() {
+                dao.insertItem(item);
+            }
+        });
     }
 
     public LiveData<Resource<SearchResponse>> searchItems(String query, int page, int items) {

@@ -14,18 +14,27 @@ import in.awesomesearch.app.data.models.GroupWithItems;
 
 public class BookmarksViewModal extends ViewModel {
 
-    public BookmarksViewModal() {
-
-    }
-
+    public BookmarksViewModal() { }
 
     LiveData<List<GroupWithItems>> getGroupsWithItems() {
         return Repository.getInstance().bookmarksWithGroups();
     }
 
+    BookmarkGroup getBookmarkGroupValue (String uid) {
+        return Repository.getInstance().getBookmarkGroup(uid).getValue();
+    }
+
+    LiveData<BookmarkGroup> getBookmarkGroup (String uid) {
+        return Repository.getInstance().getBookmarkGroup(uid);
+    }
+
     void addBookmarkGroup (String name) {
         BookmarkGroup bookmarkGroup = new BookmarkGroup(name);
         Repository.getInstance().addBookmarkGroup(bookmarkGroup);
+    }
+
+    void removeBookmarkGroup (BookmarkGroup group) {
+        Repository.getInstance().removeBookmarkGroup(group);
     }
 
 }
