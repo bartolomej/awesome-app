@@ -6,9 +6,15 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
+import androidx.navigation.ui.AppBarConfiguration;
+import androidx.navigation.ui.NavigationUI;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -49,7 +55,8 @@ public class DetailsFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         root = inflater.inflate(R.layout.fragment_details, container, false);
-        viewModel = ViewModelProviders.of(this).get(DetailsViewModel.class);
+        initViews();
+        registerInteractionListeners();
         return root;
     }
 
@@ -57,9 +64,25 @@ public class DetailsFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         uid = DetailsFragmentArgs.fromBundle(getArguments()).getItemUid();
-        initViews();
+        viewModel = new ViewModelProvider(this).get(DetailsViewModel.class);
+        setupNavigation(view);
         registerStateObservers();
-        registerInteractionListeners();
+    }
+
+    private void setupNavigation (View view) {
+        NavController navController = Navigation.findNavController(view);
+        AppBarConfiguration appBarConfiguration =
+                new AppBarConfiguration.Builder(navController.getGraph()).build();
+        Toolbar toolbar = root.findViewById(R.id.details_top_menu);
+        toolbar.findViewById(R.id.add_to_bookmarks_btn).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d(TAG, "Add to bookmarks clicked");
+            }
+        });
+
+        NavigationUI.setupWithNavController(
+                toolbar, navController, appBarConfiguration);
     }
 
     private void initViews () {
@@ -71,7 +94,7 @@ public class DetailsFragment extends Fragment {
     }
 
     private void registerStateObservers () {
-        viewModel.getAwesomeItem(uid).observe(this.getActivity(), new Observer<AwesomeItem>() {
+        viewModel.getAwesomeItem(uid).observe(getViewLifecycleOwner(), new Observer<AwesomeItem>() {
             @Override
             public void onChanged(AwesomeItem awesomeItem) {
                 Log.d(TAG, awesomeItem.toString());
@@ -81,7 +104,7 @@ public class DetailsFragment extends Fragment {
                 url = awesomeItem.url;
             }
         });
-        viewModel.getAwesomeError().observe(this.getActivity(), new Observer<AwesomeError>() {
+        viewModel.getAwesomeError().observe(getViewLifecycleOwner(), new Observer<AwesomeError>() {
             @Override
             public void onChanged(AwesomeError awesomeError) {
                 Log.d(TAG, "Error: " + awesomeError.getMessage());

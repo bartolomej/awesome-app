@@ -43,8 +43,8 @@ public class SearchViewModel extends ViewModel {
         return isLoading;
     }
 
-    LiveData<String> getQuery() {
-        return query;
+    String getQueryValue() {
+        return query.getValue();
     }
 
     LiveData<List<AwesomeItem>> getObservableSearchItems() {

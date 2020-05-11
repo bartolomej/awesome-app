@@ -34,6 +34,10 @@ public class DetailsViewModel extends ViewModel {
         return itemMutableLiveData;
     }
 
+    void addToBookmarks (AwesomeItem item) {
+
+    }
+
     LiveData<AwesomeError> getAwesomeError () {
         return errorMutableLiveData;
     }

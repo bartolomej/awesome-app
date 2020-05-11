@@ -4,16 +4,28 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import in.awesomesearch.app.AwesomeApplication;
+import in.awesomesearch.app.data.Repository;
+import in.awesomesearch.app.data.models.BookmarkGroup;
+import in.awesomesearch.app.data.models.GroupWithItems;
+
 public class BookmarksViewModal extends ViewModel {
 
-    private MutableLiveData<String> mText;
-
     public BookmarksViewModal() {
-        mText = new MutableLiveData<>();
-        mText.setValue("This is dashboard fragment");
+
     }
 
-    public LiveData<String> getText() {
-        return mText;
+
+    LiveData<List<GroupWithItems>> getGroupsWithItems() {
+        return Repository.getInstance().bookmarksWithGroups();
     }
+
+    void addBookmarkGroup (String name) {
+        BookmarkGroup bookmarkGroup = new BookmarkGroup(name);
+        Repository.getInstance().addBookmarkGroup(bookmarkGroup);
+    }
+
 }

@@ -1,5 +1,7 @@
 package in.awesomesearch.app.data;
 
+import android.os.AsyncTask;
+
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
@@ -44,7 +46,12 @@ public class Repository {
 
     public void addBookmarkGroup(BookmarkGroup bookmarkGroup) {
         BookmarkGroupDao dao = AwesomeApplication.getDatabase().bookmarkGroupDao();
-        dao.insertBookmarkGroup(bookmarkGroup);
+        AsyncTask.execute(new Runnable() {
+            @Override
+            public void run() {
+                dao.insertBookmarkGroup(bookmarkGroup);
+            }
+        });
     }
 
     public void addAwesomeItem(AwesomeItem item) {

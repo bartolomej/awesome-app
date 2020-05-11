@@ -14,4 +14,12 @@ public class GroupWithItems {
             entityColumn = "groupId"
     )
     public List<AwesomeItem> items;
+
+    public int getItemsCount () {
+        if (items != null) {
+            return items.size();
+        } else {
+            return 0;
+        }
+    }
 }

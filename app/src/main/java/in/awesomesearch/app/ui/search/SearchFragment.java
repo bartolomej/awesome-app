@@ -1,7 +1,5 @@
 package in.awesomesearch.app.ui.search;
 
-import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -14,15 +12,15 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProviders;
-import androidx.navigation.NavAction;
-import androidx.navigation.NavController;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import in.awesomesearch.app.R;
@@ -34,7 +32,7 @@ public class SearchFragment extends Fragment {
     private String TAG = "SearchFragment";
     private RecyclerView recyclerView;
     private TextView messageText;
-    private SearchAdapter resultListAdapter;
+    private SearchListAdapter resultListAdapter;
     private ProgressBar searchProgressBar;
     private EditText searchField;
     private View root;
@@ -42,26 +40,26 @@ public class SearchFragment extends Fragment {
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        viewModel = ViewModelProviders.of(this).get(SearchViewModel.class);
         root = inflater.inflate(R.layout.fragment_search, container, false);
+        initViews();
+        registerListeners();
         return root;
     }
 
     @Override
-    public void onStart() {
-        super.onStart();
-        initViews();
-        registerListeners();
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        viewModel = new ViewModelProvider(requireActivity()).get(SearchViewModel.class);
+        searchField.setText(viewModel.getQueryValue());
         registerStateObservers();
     }
 
     private void initViews() {
         searchField = root.findViewById(R.id.search_field);
-        searchField.setText(viewModel.getQuery().getValue());
         messageText = root.findViewById(R.id.search_message_text);
         searchProgressBar = root.findViewById(R.id.search_progress_bar);
         recyclerView = root.findViewById(R.id.results_view);
-        resultListAdapter = new SearchAdapter(this.getContext(), viewModel.getSearchItems());
+        resultListAdapter = new SearchListAdapter(this.getContext(), new ArrayList<>());
         recyclerView.setAdapter(resultListAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this.getContext()));
     }
@@ -70,14 +68,13 @@ public class SearchFragment extends Fragment {
      * Observes and reacts to state changes by updating views.
      */
     private void registerStateObservers() {
-        viewModel.getObservableSearchItems().observe(this, new Observer<List<AwesomeItem>>() {
+        viewModel.getObservableSearchItems().observe(requireActivity(), new Observer<List<AwesomeItem>>() {
             @Override
             public void onChanged(List<AwesomeItem> awesomeItems) {
                 resultListAdapter.setItems(awesomeItems);
-                resultListAdapter.notifyDataSetChanged();
             }
         });
-        viewModel.getIsLoading().observe(this, new Observer<Boolean>() {
+        viewModel.getIsLoading().observe(requireActivity(), new Observer<Boolean>() {
             @Override
             public void onChanged(Boolean aBoolean) {
                 if (aBoolean) {
@@ -87,7 +84,7 @@ public class SearchFragment extends Fragment {
                 }
             }
         });
-        viewModel.getMessage().observe(this, new Observer<String>() {
+        viewModel.getMessage().observe(requireActivity(), new Observer<String>() {
             @Override
             public void onChanged(String s) {
                 if (s != null) {
@@ -106,12 +103,10 @@ public class SearchFragment extends Fragment {
     private void registerListeners() {
         searchField.addTextChangedListener(new TextWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-            }
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
 
             @Override
-            public void afterTextChanged(Editable s) {
-            }
+            public void afterTextChanged(Editable s) { }
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
