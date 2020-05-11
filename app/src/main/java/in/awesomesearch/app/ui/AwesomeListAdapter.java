@@ -1,4 +1,4 @@
-package in.awesomesearch.app.ui.search;
+package in.awesomesearch.app.ui;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -12,20 +12,21 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import in.awesomesearch.app.R;
 import in.awesomesearch.app.data.models.AwesomeItem;
 
-public class SearchListAdapter extends RecyclerView.Adapter<SearchItemViewHolder> {
+public class AwesomeListAdapter extends RecyclerView.Adapter<SearchItemViewHolder> {
 
     private List<AwesomeItem> items;
     private LayoutInflater layoutInflater;
     private View.OnClickListener onClickListener;
 
 
-    SearchListAdapter(Context context, List<AwesomeItem> items) {
-        this.items = items;
+    public AwesomeListAdapter(Context context) {
+        this.items = new ArrayList<>();
         layoutInflater = LayoutInflater.from(context);
     }
 
@@ -52,11 +53,11 @@ public class SearchListAdapter extends RecyclerView.Adapter<SearchItemViewHolder
         return this.items.size();
     }
 
-    void setOnClickListener(View.OnClickListener onClickListener) {
+    public void setOnClickListener(View.OnClickListener onClickListener) {
         this.onClickListener = onClickListener;
     }
 
-    void setItems(List<AwesomeItem> items) {
+    public void setItems(List<AwesomeItem> items) {
         if (items != null) {
             this.items = items;
         }

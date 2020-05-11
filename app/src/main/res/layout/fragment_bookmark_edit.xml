@@ -13,7 +13,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/bookmark_edit_toolbar"
-        app:menu="@menu/bookmark_edit_top_menu"/>
+        app:menu="@menu/bookmark_edit_top"/>
 
     <studio.carbonylgroup.textfieldboxes.TextFieldBoxes
         android:id="@+id/text_field_boxes"

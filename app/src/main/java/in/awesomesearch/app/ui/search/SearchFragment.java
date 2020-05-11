@@ -3,7 +3,6 @@ package in.awesomesearch.app.ui.search;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,11 +19,11 @@ import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import in.awesomesearch.app.R;
 import in.awesomesearch.app.data.models.AwesomeItem;
+import in.awesomesearch.app.ui.AwesomeListAdapter;
 
 
 public class SearchFragment extends Fragment {
@@ -32,7 +31,7 @@ public class SearchFragment extends Fragment {
     private String TAG = "SearchFragment";
     private RecyclerView recyclerView;
     private TextView messageText;
-    private SearchListAdapter resultListAdapter;
+    private AwesomeListAdapter resultListAdapter;
     private ProgressBar searchProgressBar;
     private EditText searchField;
     private View root;
@@ -59,7 +58,7 @@ public class SearchFragment extends Fragment {
         messageText = root.findViewById(R.id.search_message_text);
         searchProgressBar = root.findViewById(R.id.search_progress_bar);
         recyclerView = root.findViewById(R.id.results_view);
-        resultListAdapter = new SearchListAdapter(this.getContext(), new ArrayList<>());
+        resultListAdapter = new AwesomeListAdapter(this.getContext());
         recyclerView.setAdapter(resultListAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this.getContext()));
     }
@@ -116,6 +115,7 @@ public class SearchFragment extends Fragment {
         resultListAdapter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                // TODO: refactor
                 int itemPosition = recyclerView.getChildLayoutPosition(v);
                 AwesomeItem item = viewModel.getSearchItems().get(itemPosition);
                 Navigation.findNavController(v).navigate(

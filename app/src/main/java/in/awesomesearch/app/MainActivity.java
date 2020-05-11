@@ -5,11 +5,8 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.navigation.NavController;
-import androidx.navigation.NavDestination;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
@@ -59,7 +56,7 @@ public class MainActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         // R.menu.mymenu is a reference to an xml file named mymenu.xml which should be inside your res/menu directory.
         // If you don't have res/menu, just create a directory named "menu" inside res
-        getMenuInflater().inflate(R.menu.bookmarks_top_menu, menu);
+        getMenuInflater().inflate(R.menu.bookmarks_top, menu);
         return super.onCreateOptionsMenu(menu);
     }
 

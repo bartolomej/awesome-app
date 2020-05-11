@@ -24,8 +24,8 @@ public class BookmarksViewModal extends ViewModel {
         return Repository.getInstance().getBookmarkGroup(uid).getValue();
     }
 
-    LiveData<BookmarkGroup> getBookmarkGroup (String uid) {
-        return Repository.getInstance().getBookmarkGroup(uid);
+    LiveData<GroupWithItems> getGroupWithItems (String uid) {
+        return Repository.getInstance().getGroupWithItems(uid);
     }
 
     void addBookmarkGroup (String name) {

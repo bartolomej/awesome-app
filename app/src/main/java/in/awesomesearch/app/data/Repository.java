@@ -5,8 +5,6 @@ import android.os.AsyncTask;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
-import com.squareup.picasso.Request;
-
 import java.util.List;
 
 import in.awesomesearch.app.AwesomeApplication;
@@ -41,7 +39,12 @@ public class Repository {
 
     public LiveData<BookmarkGroup> getBookmarkGroup(String uid) {
         BookmarkGroupDao dao = AwesomeApplication.getDatabase().bookmarkGroupDao();
-        return dao.findItem(uid);
+        return dao.findGroup(uid);
+    }
+
+    public LiveData<GroupWithItems> getGroupWithItems(String uid) {
+        BookmarkGroupDao dao = AwesomeApplication.getDatabase().bookmarkGroupDao();
+        return dao.getGroupWithItems(uid);
     }
 
     public void addBookmarkGroup(BookmarkGroup bookmarkGroup) {

@@ -24,11 +24,15 @@ public interface BookmarkGroupDao {
     LiveData<List<GroupWithItems>> getAllGroupsWithItems();
 
     @Transaction
+    @Query("SELECT * FROM BookmarkGroup WHERE name = :uid")
+    LiveData<GroupWithItems> getGroupWithItems(String uid);
+
+    @Transaction
     @Query("SELECT * FROM BookmarkGroup")
     List<GroupWithItems> getAllGroupsWithItemsSync();
 
     @Query("SELECT * FROM BookmarkGroup WHERE name = :uid")
-    LiveData<BookmarkGroup> findItem(String uid);
+    LiveData<BookmarkGroup> findGroup(String uid);
 
     @Query("SELECT * FROM BookmarkGroup")
     List<BookmarkGroup> getAllBookmarkGroupsSync();

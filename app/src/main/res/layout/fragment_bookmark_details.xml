@@ -1,24 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.bookmarks.BookmarksFragment">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".ui.bookmarks.BookmarkDetailsFragment">
 
     <androidx.appcompat.widget.Toolbar
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        android:id="@+id/bookmark_details_toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/bookmarks_toolbar"
-        app:menu="@menu/bookmarks_top"/>
+        app:layout_constraintTop_toTopOf="parent"
+        app:menu="@menu/bookmark_edit_top" />
+
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/bookmarks_recycler_view"
+        android:id="@+id/bookmark_items_recycler_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@+id/bookmarks_toolbar" />
-
+        app:layout_constraintTop_toBottomOf="@+id/bookmark_details_toolbar" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

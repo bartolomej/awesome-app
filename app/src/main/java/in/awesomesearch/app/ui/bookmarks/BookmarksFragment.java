@@ -11,7 +11,6 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -19,6 +18,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.List;
 
 import in.awesomesearch.app.R;
+import in.awesomesearch.app.data.models.AwesomeItem;
 import in.awesomesearch.app.data.models.GroupWithItems;
 import in.awesomesearch.app.ui.search.SearchFragmentDirections;
 
@@ -27,13 +27,14 @@ public class BookmarksFragment extends Fragment {
     private String TAG = "BookmarksFragment";
     private View root;
     private Toolbar toolbar;
-    private BookmarksViewModal viewModal;
+    private BookmarksViewModal viewModel;
     private RecyclerView bookmarksRecyclerView;
     private BookmarksListAdapter bookmarksListAdapter;
+    private List<GroupWithItems> groupWithItems;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        viewModal = new ViewModelProvider(this).get(BookmarksViewModal.class);
+        viewModel = new ViewModelProvider(this).get(BookmarksViewModal.class);
         root = inflater.inflate(R.layout.fragment_bookmarks, container, false);
         setupViews();
         return root;
@@ -57,10 +58,22 @@ public class BookmarksFragment extends Fragment {
     }
 
     private void registerStateObservers() {
-        viewModal.getGroupsWithItems().observe(this.getViewLifecycleOwner(), new Observer<List<GroupWithItems>>() {
+        viewModel.getGroupsWithItems().observe(this.getViewLifecycleOwner(), new Observer<List<GroupWithItems>>() {
             @Override
             public void onChanged(List<GroupWithItems> bookmarkGroups) {
                 bookmarksListAdapter.setItems(bookmarkGroups);
+                groupWithItems = bookmarkGroups;
+            }
+        });
+        bookmarksListAdapter.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // TODO; refactor
+                int itemPosition = bookmarksRecyclerView.getChildLayoutPosition(v);
+                GroupWithItems item = groupWithItems.get(itemPosition);
+                Navigation.findNavController(v).navigate(
+                        BookmarksFragmentDirections.actionNavigationBookmarksToBookmarkDetailsFragment(item.bookmarkGroup.name)
+                );
             }
         });
     }
