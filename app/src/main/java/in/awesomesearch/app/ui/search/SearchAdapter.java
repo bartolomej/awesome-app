@@ -39,6 +39,10 @@ public class SearchAdapter extends RecyclerView.Adapter<ItemViewHolder> {
         }
     }
 
+    public void addItems () {
+
+    }
+
     @NonNull
     @Override
     public ItemViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {

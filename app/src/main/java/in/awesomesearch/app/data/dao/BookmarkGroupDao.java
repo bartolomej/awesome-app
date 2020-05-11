@@ -27,7 +27,10 @@ public interface BookmarkGroupDao {
     List<GroupWithItems> getAllGroupsWithItemsSync();
 
     @Query("SELECT * FROM BookmarkGroup")
-    List<BookmarkGroup> getAllBookmarkGroups();
+    LiveData<List<BookmarkGroup>> getAllBookmarkGroups();
+
+    @Query("SELECT * FROM BookmarkGroup")
+    List<BookmarkGroup> getAllBookmarkGroupsSync();
 
     @Delete
     void deleteGroup(BookmarkGroup group);

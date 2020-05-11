@@ -17,6 +17,9 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
+import androidx.navigation.NavAction;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -66,7 +69,7 @@ public class SearchFragment extends Fragment {
     /**
      * Observes and reacts to state changes by updating views.
      */
-    private void registerStateObservers () {
+    private void registerStateObservers() {
         viewModel.getObservableSearchItems().observe(this, new Observer<List<AwesomeItem>>() {
             @Override
             public void onChanged(List<AwesomeItem> awesomeItems) {
@@ -103,10 +106,12 @@ public class SearchFragment extends Fragment {
     private void registerListeners() {
         searchField.addTextChangedListener(new TextWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
 
             @Override
-            public void afterTextChanged(Editable s) { }
+            public void afterTextChanged(Editable s) {
+            }
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
@@ -118,8 +123,9 @@ public class SearchFragment extends Fragment {
             public void onClick(View v) {
                 int itemPosition = recyclerView.getChildLayoutPosition(v);
                 AwesomeItem item = viewModel.getSearchItems().get(itemPosition);
-                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(item.url));
-                startActivity(browserIntent);
+                Navigation.findNavController(v).navigate(
+                        SearchFragmentDirections.actionNavigationHomeToItemDetails(item.uid)
+                );
             }
         });
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {

@@ -1,5 +1,7 @@
 package in.awesomesearch.app.ui.search;
 
+import android.util.Log;
+
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
@@ -11,6 +13,7 @@ import java.util.List;
 import in.awesomesearch.app.data.models.AwesomeItem;
 import in.awesomesearch.app.data.Repository;
 import in.awesomesearch.app.data.Resource;
+import in.awesomesearch.app.data.models.SearchResponse;
 
 public class SearchViewModel extends ViewModel {
 
@@ -19,6 +22,9 @@ public class SearchViewModel extends ViewModel {
     private MutableLiveData<String> message;
     private MutableLiveData<Boolean> isLoading;
     private MutableLiveData<List<AwesomeItem>> searchItems;
+    private SearchResponse response;
+    private int pageIndex = 0;
+    private int itemsPerPage = 20;
 
     public SearchViewModel () {
         query = new MutableLiveData<>();
@@ -56,17 +62,20 @@ public class SearchViewModel extends ViewModel {
     void searchQuery (String query) {
         this.query.postValue(query);
         this.isLoading.setValue(true);
-        LiveData<Resource<List<AwesomeItem>>> source = Repository.getInstance().searchItems(query);
-        source.observeForever(new Observer<Resource<List<AwesomeItem>>>() {
+        LiveData<Resource<SearchResponse>> source =
+                Repository.getInstance().searchItems(query, pageIndex, itemsPerPage);
+        source.observeForever(new Observer<Resource<SearchResponse>>() {
             @Override
-            public void onChanged(Resource<List<AwesomeItem>> resource) {
-                if (resource.data != null && resource.data.size() == 0) {
+            public void onChanged(Resource<SearchResponse> resource) {
+                if (resource.data != null && resource.data.result.size() == 0) {
                     message.postValue("There seems to be nothing here :(");
                 }
                 if (resource.error != null) {
                     message.setValue(resource.error.getMessage());
                 } else {
-                    searchItems.setValue(resource.data);
+                    Log.d(TAG, "Items count: " + resource.data.result.size());
+                    response = resource.data;
+                    searchItems.postValue(resource.data.result);
                     message.setValue(null);
                 }
                 isLoading.postValue(false);

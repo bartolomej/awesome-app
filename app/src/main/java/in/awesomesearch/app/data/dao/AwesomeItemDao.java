@@ -17,10 +17,13 @@ public interface AwesomeItemDao {
     void insertItem(AwesomeItem item);
 
     @Query("SELECT * FROM AwesomeItem")
-    LiveData<List<AwesomeItem>> getAllItems();
+    LiveData<List<AwesomeItem>> findAllItems();
+
+    @Query("SELECT * FROM AwesomeItem WHERE uid = :uid")
+    LiveData<AwesomeItem> findItem(String uid);
 
     @Query("SELECT * FROM AwesomeItem")
-    List<AwesomeItem> getAllItemsSync();
+    List<AwesomeItem> findAllItemsSync();
 
     @Delete
     void deleteItem(AwesomeItem item);
