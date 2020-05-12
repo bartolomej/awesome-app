@@ -5,6 +5,8 @@
     android:id="@+id/mobile_navigation"
     app:startDestination="@+id/navigation_home">
 
+<!--  ANIMATIONS: https://android.googlesource.com/platform/frameworks/base/+/HEAD/core/res/res/anim  -->
+
     <fragment
         android:id="@+id/navigation_home"
         android:name="in.awesomesearch.app.ui.search.SearchFragment"
@@ -13,6 +15,10 @@
         <action
             android:id="@+id/action_navigation_home_to_itemDetails"
             app:destination="@id/details_fragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"
             app:popUpTo="@id/navigation_home" />
     </fragment>
 
@@ -23,16 +29,25 @@
         tools:layout="@layout/fragment_bookmarks" >
         <action
             android:id="@+id/action_navigation_bookmarks_to_bookmarkEditFragment"
-            app:destination="@id/bookmarkEditFragment" />
+            app:destination="@id/bookmarkEditFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"
+            app:popUpTo="@id/navigation_bookmarks" />
         <action
             android:id="@+id/action_navigation_bookmarks_to_bookmarkDetailsFragment"
-            app:destination="@id/bookmarkDetailsFragment" />
+            app:destination="@id/bookmarkDetailsFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"
+            app:popUpTo="@id/navigation_bookmarks" />
     </fragment>
 
     <fragment
         android:id="@+id/details_fragment"
         android:name="in.awesomesearch.app.ui.search.DetailsFragment"
-        android:label="fragment_item_details"
         tools:layout="@layout/fragment_details">
         <argument
             android:name="itemUid"
@@ -41,8 +56,7 @@
     <fragment
         android:id="@+id/bookmarkEditFragment"
         android:name="in.awesomesearch.app.ui.bookmarks.BookmarkEditFragment"
-        android:label="fragment_bookmark_edit"
-        tools:layout="@layout/fragment_bookmark_edit" >
+        tools:layout="@layout/fragment_bookmark_edit">
         <argument
             android:name="bookmarkUid"
             app:argType="string"
@@ -51,14 +65,21 @@
     <fragment
         android:id="@+id/bookmarkDetailsFragment"
         android:name="in.awesomesearch.app.ui.bookmarks.BookmarkDetailsFragment"
-        android:label="fragment_bookmark_details"
-        tools:layout="@layout/fragment_bookmark_details" >
+        tools:layout="@layout/fragment_bookmark_details">
         <action
             android:id="@+id/action_bookmarkDetailsFragment_to_bookmarkEditFragment"
-            app:destination="@id/bookmarkEditFragment" />
+            app:destination="@id/bookmarkEditFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"
+            app:popUpTo="@id/bookmarkDetailsFragment" />
         <argument
             android:name="groupUid"
             app:argType="string" />
+        <action
+            android:id="@+id/action_bookmarkDetailsFragment_to_details_fragment"
+            app:destination="@id/details_fragment" />
     </fragment>
 
 </navigation>

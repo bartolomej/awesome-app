@@ -50,7 +50,6 @@ public class AwesomeListAdapter extends RecyclerView.Adapter<SearchItemViewHolde
         holder.setTitle(current.title);
         holder.setDescription(current.description);
         holder.setImage(current.image);
-        holder.setTags(current.tags, this.context);
     }
 
     @Override
@@ -63,7 +62,6 @@ public class AwesomeListAdapter extends RecyclerView.Adapter<SearchItemViewHolde
     }
 
     public void setItems(List<AwesomeItem> items) {
-        Log.d(TAG, "Items count: " + items);
         if (items != null) {
             this.items = items;
         } else {
@@ -86,15 +84,6 @@ class SearchItemViewHolder extends RecyclerView.ViewHolder {
         descriptionText = itemView.findViewById(R.id.item_description);
         imageView = itemView.findViewById(R.id.item_image);
         tagsLinearLayout = itemView.findViewById(R.id.tags_linear_layout);
-    }
-
-    void setTags(ArrayList<String> tags, Context context) {
-        if (tags != null && tags.size() > 0) {
-            for (String tag : tags) {
-                TextView tagText = (TextView) View.inflate(context, R.layout.tag_item, tagsLinearLayout);
-                tagText.setText(tag);
-            }
-        }
     }
 
     void setDescription(String description) {

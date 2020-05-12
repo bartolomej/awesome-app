@@ -22,4 +22,8 @@ public class GroupWithItems {
             return 0;
         }
     }
+
+    public boolean hasItems () {
+        return this.items != null && this.items.size() > 0;
+    }
 }

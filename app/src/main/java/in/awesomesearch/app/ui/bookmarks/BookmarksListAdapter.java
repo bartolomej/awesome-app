@@ -25,7 +25,7 @@ public class BookmarksListAdapter extends RecyclerView.Adapter {
     private List<GroupWithItems> items;
     private View.OnClickListener onClickListener;
 
-    public BookmarksListAdapter(Context context) {
+    BookmarksListAdapter(Context context) {
         items = new ArrayList<>();
         layoutInflater = LayoutInflater.from(context);
     }
@@ -42,9 +42,8 @@ public class BookmarksListAdapter extends RecyclerView.Adapter {
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         GroupWithItems current = items.get(position);
         BookmarkItemViewHolder viewHolder = (BookmarkItemViewHolder) holder;
-        viewHolder.itemsCount.setText(String.valueOf(current.getItemsCount()));
-        Log.d(TAG, current.bookmarkGroup.name + ": " + current.items.size());
-        viewHolder.name.setText(current.bookmarkGroup.name);
+        viewHolder.setItemsCount(current.getItemsCount());
+        viewHolder.setName(current.bookmarkGroup.name);
     }
 
     @Override
@@ -76,4 +75,13 @@ class BookmarkItemViewHolder extends RecyclerView.ViewHolder {
         itemsCount = itemView.findViewById(R.id.bookmark_item_count);
         image = itemView.findViewById(R.id.bookmark_item_image);
     }
+
+    void setName (String name) {
+        this.name.setText(name);
+    }
+
+    void setItemsCount (int itemsCount) {
+        this.itemsCount.setText(String.format("%d items", itemsCount));
+    }
+
 }

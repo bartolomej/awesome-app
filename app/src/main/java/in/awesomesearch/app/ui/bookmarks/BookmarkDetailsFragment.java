@@ -7,6 +7,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
@@ -20,6 +21,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,6 +31,7 @@ import in.awesomesearch.app.R;
 import in.awesomesearch.app.data.models.AwesomeItem;
 import in.awesomesearch.app.data.models.BookmarkGroup;
 import in.awesomesearch.app.data.models.GroupWithItems;
+import in.awesomesearch.app.data.models.UserMessage;
 import in.awesomesearch.app.ui.AwesomeListAdapter;
 
 
@@ -35,6 +39,10 @@ public class BookmarkDetailsFragment extends Fragment {
 
     private View root;
     private Toolbar toolbar;
+    private TextView messageTitle;
+    private TextView messageDescription;
+    private ConstraintLayout messageView;
+    private ImageView messageImage;
     private NavController navController;
     private BookmarkGroup bookmarkGroup;
     private BookmarksViewModal viewModel;
@@ -42,6 +50,7 @@ public class BookmarkDetailsFragment extends Fragment {
     private List<AwesomeItem> awesomeItems;
     private RecyclerView recyclerView;
     private String groupUid;
+    private TextView toolbarText;
 
     public BookmarkDetailsFragment() {
         // Required empty public constructor
@@ -70,7 +79,13 @@ public class BookmarkDetailsFragment extends Fragment {
         recyclerView = root.findViewById(R.id.bookmark_items_recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(this.getContext()));
         recyclerView.setAdapter(awesomeListAdapter);
+        toolbarText = root.findViewById(R.id.bookmark_details_title);
         toolbar = root.findViewById(R.id.bookmark_details_toolbar);
+        messageView = root.findViewById(R.id.message_view_container);
+        messageTitle = root.findViewById(R.id.message_view_title);
+        messageDescription = root.findViewById(R.id.message_view_desc);
+        messageImage = root.findViewById(R.id.message_view_image);
+        toolbar.setTitle(null);
     }
 
     private void setupNavigation(View view) {
@@ -87,7 +102,24 @@ public class BookmarkDetailsFragment extends Fragment {
                 List<AwesomeItem> items = group.items;
                 bookmarkGroup = group.bookmarkGroup;
                 awesomeListAdapter.setItems(items);
+                toolbarText.setText(group.bookmarkGroup.name);
                 awesomeItems = items;
+            }
+        });
+        // TODO: refactor -> this is duplicated code
+        viewModel.getMessage().observe(this.getViewLifecycleOwner(), new Observer<UserMessage>() {
+            @Override
+            public void onChanged(UserMessage m) {
+                if (m != null) {
+                    messageView.setVisibility(View.VISIBLE);
+                    messageTitle.setText(m.titleResource);
+                    messageDescription.setText(m.descriptionResource);
+                    if (m.imageResource != 0) {
+                        messageImage.setImageResource(m.imageResource);
+                    }
+                } else {
+                    messageView.setVisibility(View.GONE);
+                }
             }
         });
         awesomeListAdapter.setOnClickListener(new View.OnClickListener() {

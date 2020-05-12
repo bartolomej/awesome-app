@@ -1,13 +1,17 @@
 package in.awesomesearch.app.ui.bookmarks;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
@@ -18,25 +22,29 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.List;
 
 import in.awesomesearch.app.R;
-import in.awesomesearch.app.data.models.AwesomeItem;
 import in.awesomesearch.app.data.models.GroupWithItems;
-import in.awesomesearch.app.ui.search.SearchFragmentDirections;
+import in.awesomesearch.app.data.models.UserMessage;
 
 public class BookmarksFragment extends Fragment {
 
     private String TAG = "BookmarksFragment";
     private View root;
     private Toolbar toolbar;
+
     private BookmarksViewModal viewModel;
     private RecyclerView bookmarksRecyclerView;
+    private TextView messageTitle;
+    private TextView messageDescription;
+    private ConstraintLayout messageView;
     private BookmarksListAdapter bookmarksListAdapter;
     private List<GroupWithItems> groupWithItems;
+    private ImageView messageImage;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         viewModel = new ViewModelProvider(this).get(BookmarksViewModal.class);
         root = inflater.inflate(R.layout.fragment_bookmarks, container, false);
-        setupViews();
+        initViews();
         return root;
     }
 
@@ -47,12 +55,16 @@ public class BookmarksFragment extends Fragment {
         registerInteractionListeners();
     }
 
-    private void setupViews() {
+    private void initViews() {
         toolbar = root.findViewById(R.id.bookmarks_toolbar);
         bookmarksRecyclerView = root.findViewById(R.id.bookmarks_recycler_view);
         bookmarksListAdapter = new BookmarksListAdapter(this.getContext());
         bookmarksRecyclerView.setLayoutManager(new LinearLayoutManager(this.getContext()));
         bookmarksRecyclerView.setAdapter(bookmarksListAdapter);
+        messageView = root.findViewById(R.id.message_view_container);
+        messageTitle = root.findViewById(R.id.message_view_title);
+        messageDescription = root.findViewById(R.id.message_view_desc);
+        messageImage = root.findViewById(R.id.message_view_image);
         toolbar.setTitle(null);
         toolbar.setNavigationIcon(null);
     }
@@ -63,6 +75,21 @@ public class BookmarksFragment extends Fragment {
             public void onChanged(List<GroupWithItems> bookmarkGroups) {
                 bookmarksListAdapter.setItems(bookmarkGroups);
                 groupWithItems = bookmarkGroups;
+            }
+        });
+        viewModel.getMessage().observe(this.getViewLifecycleOwner(), new Observer<UserMessage>() {
+            @Override
+            public void onChanged(UserMessage m) {
+                if (m != null) {
+                    messageView.setVisibility(View.VISIBLE);
+                    messageTitle.setText(m.titleResource);
+                    messageDescription.setText(m.descriptionResource);
+                    if (m.imageResource != 0) {
+                        messageImage.setImageResource(m.imageResource);
+                    }
+                } else {
+                    messageView.setVisibility(View.GONE);
+                }
             }
         });
         bookmarksListAdapter.setOnClickListener(new View.OnClickListener() {

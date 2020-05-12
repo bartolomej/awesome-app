@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -22,8 +23,10 @@ import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
+import com.google.android.material.snackbar.Snackbar;
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import in.awesomesearch.app.AwesomeError;
@@ -47,6 +50,7 @@ public class DetailsFragment extends Fragment {
     private ImageView imageView;
     private Button urlButton;
     private Toolbar toolbar;
+    private LinearLayout tagsLinearLayout;
 
 
     public DetailsFragment() {
@@ -86,6 +90,7 @@ public class DetailsFragment extends Fragment {
         imageView = root.findViewById(R.id.details_image);
         urlButton = root.findViewById(R.id.details_url_btn);
         toolbar = root.findViewById(R.id.details_top_menu);
+        tagsLinearLayout = root.findViewById(R.id.tags_linear_layout);
     }
 
     private void showBookmarkDialog() {
@@ -111,6 +116,7 @@ public class DetailsFragment extends Fragment {
                 descriptionView.setText(item.description);
                 Picasso.get().load(item.image).into(imageView);
                 url = item.url;
+                setTags(item.tags);
             }
         });
         viewModel.getAwesomeError().observe(getViewLifecycleOwner(), new Observer<AwesomeError>() {
@@ -138,6 +144,9 @@ public class DetailsFragment extends Fragment {
             @Override
             public void onDialogItemPick(GroupWithItems group) {
                 viewModel.addToBookmarks(group.bookmarkGroup.name, awesomeItem);
+                Snackbar.make(root, "Added to " + group.bookmarkGroup.name, Snackbar.LENGTH_SHORT)
+                        .setActionTextColor(getResources().getColor(android.R.color.white ))
+                        .show();
             }
         });
     }
@@ -145,6 +154,17 @@ public class DetailsFragment extends Fragment {
     private void openPageInBrowser(String url) {
         Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
         startActivity(browserIntent);
+    }
+
+    private void setTags (ArrayList<String> tags) {
+        // TODO: use TableView for multi row functionality
+//        if (tags != null && tags.size() > 0) {
+//            for (String tag : tags) {
+//                TextView tagText = (TextView) View.inflate(this.getContext(), R.layout.tag_item, null);
+//                tagText.setText(tag);
+//                tagsLinearLayout.addView(tagText);
+//            }
+//        }
     }
 
 }

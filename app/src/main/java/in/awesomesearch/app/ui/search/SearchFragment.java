@@ -8,7 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
-import android.widget.ProgressBar;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -26,6 +26,7 @@ import java.util.List;
 
 import in.awesomesearch.app.R;
 import in.awesomesearch.app.data.models.AwesomeItem;
+import in.awesomesearch.app.data.models.UserMessage;
 import in.awesomesearch.app.ui.AwesomeListAdapter;
 
 
@@ -37,6 +38,7 @@ public class SearchFragment extends Fragment {
     private TextView messageTitle;
     private TextView messageDescription;
     private ConstraintLayout messageView;
+    private ImageView messageImage;
     private AwesomeListAdapter resultListAdapter;
     private EditText searchField;
     private View root;
@@ -68,6 +70,7 @@ public class SearchFragment extends Fragment {
         messageView = root.findViewById(R.id.message_view_container);
         messageTitle = root.findViewById(R.id.message_view_title);
         messageDescription = root.findViewById(R.id.message_view_desc);
+        messageImage = root.findViewById(R.id.message_view_image);
     }
 
     /**
@@ -91,12 +94,16 @@ public class SearchFragment extends Fragment {
                 }
             }
         });
-        viewModel.getMessage().observe(requireActivity(), new Observer<String>() {
+        viewModel.getMessage().observe(requireActivity(), new Observer<UserMessage>() {
             @Override
-            public void onChanged(String s) {
-                if (s != null) {
+            public void onChanged(UserMessage m) {
+                if (m != null) {
                     messageView.setVisibility(View.VISIBLE);
-                    messageTitle.setText(R.string.search_empty_message);
+                    messageTitle.setText(m.titleResource);
+                    messageDescription.setText(m.descriptionResource);
+                    if (m.imageResource != 0) {
+                        messageImage.setImageResource(m.imageResource);
+                    }
                 } else {
                     messageView.setVisibility(View.GONE);
                 }

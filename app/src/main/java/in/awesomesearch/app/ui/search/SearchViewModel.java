@@ -10,23 +10,25 @@ import androidx.lifecycle.ViewModel;
 import java.util.ArrayList;
 import java.util.List;
 
+import in.awesomesearch.app.R;
 import in.awesomesearch.app.data.models.AwesomeItem;
 import in.awesomesearch.app.data.Repository;
 import in.awesomesearch.app.data.Resource;
 import in.awesomesearch.app.data.models.SearchResponse;
+import in.awesomesearch.app.data.models.UserMessage;
 
 public class SearchViewModel extends ViewModel {
 
     private static final String TAG = "SearchViewModel";
     private MutableLiveData<String> query;
-    private MutableLiveData<String> message;
+    private MutableLiveData<UserMessage> message;
     private MutableLiveData<Boolean> isLoading;
     private MutableLiveData<List<AwesomeItem>> searchItems;
     private SearchResponse response;
     private int pageIndex = 0;
     private int itemsPerPage = 20;
 
-    public SearchViewModel () {
+    public SearchViewModel() {
         query = new MutableLiveData<>();
         message = new MutableLiveData<>();
         isLoading = new MutableLiveData<>();
@@ -35,7 +37,7 @@ public class SearchViewModel extends ViewModel {
         searchItems.setValue(new ArrayList<AwesomeItem>());
     }
 
-    MutableLiveData<String> getMessage() {
+    LiveData<UserMessage> getMessage() {
         return message;
     }
 
@@ -51,7 +53,7 @@ public class SearchViewModel extends ViewModel {
         return searchItems;
     }
 
-    List<AwesomeItem> getSearchItems () {
+    List<AwesomeItem> getSearchItems() {
         if (searchItems.getValue() != null) {
             return searchItems.getValue();
         } else {
@@ -59,8 +61,16 @@ public class SearchViewModel extends ViewModel {
         }
     }
 
-    void searchQuery (String query) {
+    void searchQuery(String query) {
         this.query.postValue(query);
+        if (query.length() == 0) {
+            message.postValue(new UserMessage(
+                    R.string.search_initial_title,
+                    R.string.search_initial_desc,
+                    R.drawable.ic_telescope
+            ));
+            return;
+        }
         this.isLoading.setValue(true);
         LiveData<Resource<SearchResponse>> source =
                 Repository.getInstance().searchItems(query, pageIndex, itemsPerPage);
@@ -68,11 +78,20 @@ public class SearchViewModel extends ViewModel {
             @Override
             public void onChanged(Resource<SearchResponse> resource) {
                 if (resource.data != null && resource.data.result.size() == 0) {
-                    message.postValue("There seems to be nothing here :(");
+                    message.postValue(new UserMessage(
+                            R.string.no_search_items_title,
+                            R.string.no_search_items_desc,
+                            R.drawable.ic_ufo
+                    ));
                 }
                 if (resource.error != null) {
+                    Log.d(TAG, "ERROR WHILE FETCHING: " + resource.error.getMessage());
                     searchItems.postValue(null);
-                    message.setValue(resource.error.getMessage());
+                    message.setValue(new UserMessage(
+                            R.string.search_error_title,
+                            R.string.search_error_desc,
+                            R.drawable.ic_meteor
+                    ));
                 } else {
                     response = resource.data;
                     searchItems.postValue(resource.data.result);

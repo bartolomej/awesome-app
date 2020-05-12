@@ -1,5 +1,6 @@
 package in.awesomesearch.app.ui.bookmarks;
 
+import android.content.Context;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -16,7 +17,10 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
+
+import com.google.android.material.snackbar.Snackbar;
 
 import in.awesomesearch.app.R;
 import studio.carbonylgroup.textfieldboxes.ExtendedEditText;
@@ -58,6 +62,7 @@ public class BookmarkEditFragment extends Fragment {
         nameTextField = root.findViewById(R.id.edit_name_text_field);
         saveButton = root.findViewById(R.id.edit_bookmark_save_btn);
         toolbar = root.findViewById(R.id.bookmark_edit_toolbar);
+        toolbar.setTitle("");
     }
 
     private void setupNavigation(View view) {
@@ -86,9 +91,10 @@ public class BookmarkEditFragment extends Fragment {
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d(TAG, "On save clicked");
                 viewModal.addBookmarkGroup(nameTextField.getText().toString());
                 navController.popBackStack();
+                InputMethodManager imm = (InputMethodManager)getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(getActivity().getCurrentFocus().getWindowToken(), 0);
             }
         });
     }

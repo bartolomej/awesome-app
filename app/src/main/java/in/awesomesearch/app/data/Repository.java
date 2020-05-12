@@ -32,7 +32,7 @@ public class Repository {
         return instance;
     }
 
-    public LiveData<List<GroupWithItems>> bookmarksWithGroups () {
+    public LiveData<List<GroupWithItems>> bookmarksWithGroups() {
         BookmarkGroupDao dao = AwesomeApplication.getDatabase().bookmarkGroupDao();
         return dao.getAllGroupsWithItems();
     }
@@ -57,7 +57,7 @@ public class Repository {
         });
     }
 
-    public void removeBookmarkGroup (BookmarkGroup group) {
+    public void removeBookmarkGroup(BookmarkGroup group) {
         BookmarkGroupDao dao = AwesomeApplication.getDatabase().bookmarkGroupDao();
         AsyncTask.execute(new Runnable() {
             @Override
@@ -96,13 +96,16 @@ public class Repository {
 
             @Override
             public void onFailure(Call<SearchResponse> call, Throwable t) {
-                result.postValue(Resource.failed(AwesomeError.network(t.getMessage())));
+                // do not recognise as error if request was cancelled
+                if (!t.getMessage().equals("Canceled")) {
+                    result.postValue(Resource.failed(AwesomeError.network(t.getMessage())));
+                }
             }
         });
         return result;
     }
 
-    public LiveData<Resource<AwesomeItem>> getAwesomeItem (String uid) {
+    public LiveData<Resource<AwesomeItem>> getAwesomeItem(String uid) {
         AwesomeService service = AwesomeService.Factory.create();
         Call<AwesomeItem> request = service.object(uid);
         MutableLiveData<Resource<AwesomeItem>> result = new MutableLiveData<>();
