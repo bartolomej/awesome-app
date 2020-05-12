@@ -69,6 +69,7 @@ public class SearchViewModel extends ViewModel {
                     R.string.search_initial_desc,
                     R.drawable.ic_telescope
             ));
+            searchItems.postValue(new ArrayList<>());
             return;
         }
         this.isLoading.setValue(true);
