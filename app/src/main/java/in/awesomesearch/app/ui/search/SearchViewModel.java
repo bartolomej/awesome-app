@@ -71,9 +71,9 @@ public class SearchViewModel extends ViewModel {
                     message.postValue("There seems to be nothing here :(");
                 }
                 if (resource.error != null) {
+                    searchItems.postValue(null);
                     message.setValue(resource.error.getMessage());
                 } else {
-                    Log.d(TAG, "Items count: " + resource.data.result.size());
                     response = resource.data;
                     searchItems.postValue(resource.data.result);
                     message.setValue(null);

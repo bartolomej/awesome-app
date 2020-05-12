@@ -49,6 +49,8 @@ dependencies {
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation 'com.github.HITGIF:TextFieldBoxes:1.4.5'
     annotationProcessor "androidx.room:room-compiler:$room_version"
+    implementation 'com.makeramen:roundedimageview:2.3.0'
+    implementation 'com.github.ybq:Android-SpinKit:1.4.0'
 
     testImplementation "junit:junit:$junit_version"
     testImplementation "androidx.room:room-testing:$room_version"

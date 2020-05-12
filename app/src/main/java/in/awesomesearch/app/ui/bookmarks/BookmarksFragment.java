@@ -53,7 +53,7 @@ public class BookmarksFragment extends Fragment {
         bookmarksListAdapter = new BookmarksListAdapter(this.getContext());
         bookmarksRecyclerView.setLayoutManager(new LinearLayoutManager(this.getContext()));
         bookmarksRecyclerView.setAdapter(bookmarksListAdapter);
-        toolbar.setTitle("Bookmarks");
+        toolbar.setTitle(null);
         toolbar.setNavigationIcon(null);
     }
 

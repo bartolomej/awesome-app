@@ -1,15 +1,18 @@
 package in.awesomesearch.app.ui;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.tabs.TabLayout;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -20,12 +23,14 @@ import in.awesomesearch.app.data.models.AwesomeItem;
 
 public class AwesomeListAdapter extends RecyclerView.Adapter<SearchItemViewHolder> {
 
+    private static final String TAG = "AwesomeListAdapter";
     private List<AwesomeItem> items;
     private LayoutInflater layoutInflater;
     private View.OnClickListener onClickListener;
-
+    private Context context;
 
     public AwesomeListAdapter(Context context) {
+        this.context = context;
         this.items = new ArrayList<>();
         layoutInflater = LayoutInflater.from(context);
     }
@@ -42,10 +47,10 @@ public class AwesomeListAdapter extends RecyclerView.Adapter<SearchItemViewHolde
     @Override
     public void onBindViewHolder(@NonNull SearchItemViewHolder holder, int position) {
         AwesomeItem current = items.get(position);
-        holder.title.setText(current.title);
-        holder.description.setText(current.description);
-        // https://square.github.io/picasso/
-        Picasso.get().load(current.image).into(holder.image);
+        holder.setTitle(current.title);
+        holder.setDescription(current.description);
+        holder.setImage(current.image);
+        holder.setTags(current.tags, this.context);
     }
 
     @Override
@@ -58,8 +63,11 @@ public class AwesomeListAdapter extends RecyclerView.Adapter<SearchItemViewHolde
     }
 
     public void setItems(List<AwesomeItem> items) {
+        Log.d(TAG, "Items count: " + items);
         if (items != null) {
             this.items = items;
+        } else {
+            this.items = new ArrayList<>();
         }
         notifyDataSetChanged();
     }
@@ -67,14 +75,38 @@ public class AwesomeListAdapter extends RecyclerView.Adapter<SearchItemViewHolde
 
 class SearchItemViewHolder extends RecyclerView.ViewHolder {
 
-    public final TextView title;
-    final TextView description;
-    final ImageView image;
+    final TextView titleText;
+    final TextView descriptionText;
+    final ImageView imageView;
+    final LinearLayout tagsLinearLayout;
 
     SearchItemViewHolder(View itemView) {
         super(itemView);
-        title = itemView.findViewById(R.id.item_title);
-        description = itemView.findViewById(R.id.item_description);
-        image = itemView.findViewById(R.id.item_image);
+        titleText = itemView.findViewById(R.id.item_title);
+        descriptionText = itemView.findViewById(R.id.item_description);
+        imageView = itemView.findViewById(R.id.item_image);
+        tagsLinearLayout = itemView.findViewById(R.id.tags_linear_layout);
+    }
+
+    void setTags(ArrayList<String> tags, Context context) {
+        if (tags != null && tags.size() > 0) {
+            for (String tag : tags) {
+                TextView tagText = (TextView) View.inflate(context, R.layout.tag_item, tagsLinearLayout);
+                tagText.setText(tag);
+            }
+        }
+    }
+
+    void setDescription(String description) {
+        descriptionText.setText(description);
+    }
+
+    void setTitle(String title) {
+        titleText.setText(title);
+    }
+
+    void setImage(String url) {
+        // https://square.github.io/picasso/
+        Picasso.get().load(url).into(imageView);
     }
 }

@@ -7,18 +7,35 @@
     tools:context=".ui.bookmarks.BookmarksFragment">
 
     <androidx.appcompat.widget.Toolbar
+        app:titleTextColor="@color/colorPrimary"
+        android:textAlignment="center"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/bookmarks_toolbar"
-        app:menu="@menu/bookmarks_top"/>
+        app:menu="@menu/bookmarks_top"
+        android:gravity="center_horizontal" >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Bookmarks"
+            android:fontFamily="@font/montserrat_semibold"
+            android:textColor="@color/colorPrimary"
+            android:textSize="17sp"
+            android:layout_gravity="center"
+            android:id="@+id/toolbar_title" />
+
+    </androidx.appcompat.widget.Toolbar>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/bookmarks_recycler_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toBottomOf="@+id/bookmarks_toolbar" />
+
+    <include layout="@layout/message_view" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

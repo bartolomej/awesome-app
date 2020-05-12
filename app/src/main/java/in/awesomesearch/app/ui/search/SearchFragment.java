@@ -3,15 +3,18 @@ package in.awesomesearch.app.ui.search;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
@@ -30,9 +33,11 @@ public class SearchFragment extends Fragment {
 
     private String TAG = "SearchFragment";
     private RecyclerView recyclerView;
-    private TextView messageText;
+    private RelativeLayout loadingView;
+    private TextView messageTitle;
+    private TextView messageDescription;
+    private ConstraintLayout messageView;
     private AwesomeListAdapter resultListAdapter;
-    private ProgressBar searchProgressBar;
     private EditText searchField;
     private View root;
     private SearchViewModel viewModel;
@@ -55,12 +60,14 @@ public class SearchFragment extends Fragment {
 
     private void initViews() {
         searchField = root.findViewById(R.id.search_field);
-        messageText = root.findViewById(R.id.search_message_text);
-        searchProgressBar = root.findViewById(R.id.search_progress_bar);
         recyclerView = root.findViewById(R.id.results_view);
         resultListAdapter = new AwesomeListAdapter(this.getContext());
         recyclerView.setAdapter(resultListAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this.getContext()));
+        loadingView = root.findViewById(R.id.loading_view_container);
+        messageView = root.findViewById(R.id.message_view_container);
+        messageTitle = root.findViewById(R.id.message_view_title);
+        messageDescription = root.findViewById(R.id.message_view_desc);
     }
 
     /**
@@ -77,9 +84,10 @@ public class SearchFragment extends Fragment {
             @Override
             public void onChanged(Boolean aBoolean) {
                 if (aBoolean) {
-                    showSearchProgress();
+                    loadingView.setVisibility(View.VISIBLE);
+                    messageView.setVisibility(View.GONE);
                 } else {
-                    hideSearchProgress();
+                    loadingView.setVisibility(View.GONE);
                 }
             }
         });
@@ -87,10 +95,10 @@ public class SearchFragment extends Fragment {
             @Override
             public void onChanged(String s) {
                 if (s != null) {
-                    messageText.setVisibility(View.VISIBLE);
-                    messageText.setText(R.string.search_empty_message);
+                    messageView.setVisibility(View.VISIBLE);
+                    messageTitle.setText(R.string.search_empty_message);
                 } else {
-                    messageText.setVisibility(View.GONE);
+                    messageView.setVisibility(View.GONE);
                 }
             }
         });
@@ -130,14 +138,6 @@ public class SearchFragment extends Fragment {
                 // TODO: setup pagination
             }
         });
-    }
-
-    private void showSearchProgress() {
-        searchProgressBar.setVisibility(View.VISIBLE);
-    }
-
-    private void hideSearchProgress() {
-        searchProgressBar.setVisibility(View.GONE);
     }
 
 }
